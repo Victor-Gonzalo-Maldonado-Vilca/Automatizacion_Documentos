@@ -1,0 +1,88 @@
+# ============================================================================
+#  TEMAS DE COLOR PARA LAS DIAPOSITIVAS
+#  Se elige en diapositivas.yaml con `tema: <nombre>` o con --tema <nombre>.
+#  Para un tema propio, copia uno y cambia los colores.
+#  En diapositivas.yaml también puedes cambiar solo algunos colores:
+#      colores: { primario: "#0B5394" }
+#
+#  primario     -> barras, acentos, viñetas, encabezados de tabla
+#  oscuro       -> fondo de portada inferior, separadores de sección y cierre
+#  acento       -> detalles secundarios (números de sección, resaltados)
+#  texto        -> texto principal
+#  texto_suave  -> subtítulos, pies, numeración
+#  fondo        -> fondo de las diapositivas
+#  fondo_alt    -> paneles, tarjetas y filas alternas de tablas
+#  texto_claro  -> texto sobre fondos oscuros
+# ============================================================================
+
+unsa:
+  nombre: Rojo institucional (UNSA)
+  primario: "#C8310E"
+  oscuro: "#1F2328"
+  acento: "#E8A33D"
+  texto: "#2D3138"
+  texto_suave: "#6B7280"
+  fondo: "#FFFFFF"
+  fondo_alt: "#F4F2EF"
+  texto_claro: "#FFFFFF"
+
+azul:
+  nombre: Azul académico
+  primario: "#1F4E79"
+  oscuro: "#0F2238"
+  acento: "#C9A227"
+  texto: "#22303C"
+  texto_suave: "#64748B"
+  fondo: "#FFFFFF"
+  fondo_alt: "#EEF3F8"
+  texto_claro: "#FFFFFF"
+
+verde:
+  nombre: Verde científico
+  primario: "#1E6B52"
+  oscuro: "#11302A"
+  acento: "#D9A441"
+  texto: "#22312C"
+  texto_suave: "#61716B"
+  fondo: "#FFFFFF"
+  fondo_alt: "#EEF4F1"
+  texto_claro: "#FFFFFF"
+
+vino:
+  nombre: Vino clásico
+  primario: "#7A1F3D"
+  oscuro: "#2A0F19"
+  acento: "#C89B5A"
+  texto: "#2F2428"
+  texto_suave: "#76666C"
+  fondo: "#FFFFFF"
+  fondo_alt: "#F6F0F1"
+  texto_claro: "#FFFFFF"
+
+grafito:
+  nombre: Grafito y turquesa
+  primario: "#0F7C80"
+  oscuro: "#1E252D"
+  acento: "#F2A541"
+  texto: "#262D34"
+  texto_suave: "#67727E"
+  fondo: "#FFFFFF"
+  fondo_alt: "#EFF3F4"
+  texto_claro: "#FFFFFF"
+
+noche:
+  nombre: Oscuro (fondo negro)
+  primario: "#4EA8DE"
+  oscuro: "#0B0E13"
+  acento: "#F4B860"
+  texto: "#E6E9EE"
+  texto_suave: "#9AA4B2"
+  fondo: "#151A21"
+  fondo_alt: "#1F2630"
+  texto_claro: "#FFFFFF"
+
+# Fuentes comunes a todos los temas (pueden cambiarse por tema).
+_fuentes:
+  fuente_titulos: Calibri
+  fuente_texto: Calibri
+  fuente_codigo: Consolas
