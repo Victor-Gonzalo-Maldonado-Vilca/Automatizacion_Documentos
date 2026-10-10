@@ -20,7 +20,28 @@ python -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 ```
 
-## Uso
+## Interfaz gráfica
+
+```powershell
+.\.venv\Scripts\python interfaz.py
+```
+
+Se abre en el navegador (`http://127.0.0.1:5000`, solo accesible desde esta PC):
+
+- **Lista de documentos** con buscador y botón **Nuevo documento** (elige el formato y la carpeta).
+- **Datos:** formulario generado a partir del YAML (listas, secciones, diapositivas…).
+  Al guardar se conservan los comentarios y el formato del archivo.
+- **Contenido:** editor de los `.typ` con botones para insertar subtítulos, listas,
+  capturas, tablas, código, notas, ecuaciones y citas.
+- **Imágenes:** subir arrastrando, ver la galería y copiar el código para insertarlas.
+- **Referencias:** asistente para agregar referencias (web, libro, artículo…) y editor del `.bib`.
+- **YAML:** edición directa del archivo de datos.
+- **Generar:** elige las salidas (PDF, Word, PPTX) y el tema; el resultado se ve en la
+  vista previa y se puede abrir o descargar.
+
+La interfaz usa la misma lógica que la línea de comandos, así que ambas pueden usarse indistintamente.
+
+## Uso desde la línea de comandos
 
 Cada documento es un archivo YAML que declara su `formato:`. Los formatos son
 **independientes**: se genera solo lo que se necesita.
@@ -68,12 +89,14 @@ una carpeta que ya tiene otro.
 
 ```
 generar.py                         Línea de comandos
+interfaz.py                        Interfaz gráfica (abre el navegador)
 config/institucion.yaml            Universidad, logos y encabezado (común a todos los formatos)
 src/datos.py, src/bib.py           Utilidades comunes (YAML, BibTeX)
 src/typst_lite.py                  Lector del contenido .typ para generar Word
 src/docx_render.py                 Escritura del contenido en Word (común a los informes)
 src/resaltado.py, src/office.py    Resaltado de código y conversión/actualización con Office
 src/formatos/                      Un módulo por formato + registro (__init__.py)
+src/web/                           Servidor de la interfaz (Flask) y página (HTML/CSS/JS)
 plantillas/<formato>/              Diseño de cada formato y su esqueleto nuevo/
   informe-laboratorio/plantilla.docx   Plantilla Word oficial (base del .docx)
   informe-academico/plantilla.docx     Estilos de la plantilla académica, sin contenido
