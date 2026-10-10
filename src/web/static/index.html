@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automatización de Documentos</title>
+  <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+  <header class="barra">
+    <div class="marca">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm7 1.5V9h5.5L13 3.5ZM8 13h8v1.6H8V13Zm0 3.4h8V18H8v-1.6Zm0-6.8h4v1.6H8V9.6Z"/></svg>
+      </span>
+      <div>
+        <h1>Automatización de Documentos</h1>
+        <p>Informes y presentaciones académicas desde tus datos</p>
+      </div>
+    </div>
+    <button id="btn-nuevo" class="boton primario">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>
+      Nuevo documento
+    </button>
+  </header>
+
+  <div class="disposicion">
+    <aside class="lateral">
+      <input id="buscar" class="buscador" type="search" placeholder="Buscar documento…" aria-label="Buscar documento">
+      <nav id="lista-documentos" class="lista-documentos" aria-label="Documentos"></nav>
+    </aside>
+
+    <main id="principal" class="principal">
+      <section id="vacio" class="vacio">
+        <h2>Elige un documento</h2>
+        <p>Selecciona un documento de la lista o crea uno nuevo para empezar.</p>
+      </section>
+
+      <section id="editor" class="editor oculto">
+        <div class="cabecera-doc">
+          <div class="titulo-doc">
+            <span id="doc-formato" class="insignia"></span>
+            <h2 id="doc-titulo"></h2>
+            <code id="doc-ruta" class="ruta"></code>
+          </div>
+          <div class="acciones">
+            <span id="estado-guardado" class="estado-guardado"></span>
+            <button id="btn-guardar" class="boton" disabled>Guardar</button>
+          </div>
+        </div>
+
+        <div class="generar-barra">
+          <div id="chips-salidas" class="chips" role="group" aria-label="Salidas"></div>
+          <label id="selector-tema" class="selector-tema oculto">Tema
+            <select id="tema"></select>
+          </label>
+          <button id="btn-generar" class="boton primario">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+            Generar
+          </button>
+        </div>
+
+        <div class="zona">
+          <div class="trabajo">
+            <div class="pestanas" role="tablist">
+              <button role="tab" data-pestana="datos" class="activa">Datos</button>
+              <button role="tab" data-pestana="archivos">Contenido</button>
+              <button role="tab" data-pestana="imagenes">Imágenes</button>
+              <button role="tab" data-pestana="referencias">Referencias</button>
+              <button role="tab" data-pestana="yaml">YAML</button>
+            </div>
+            <div id="panel-datos" class="panel"></div>
+            <div id="panel-archivos" class="panel oculto"></div>
+            <div id="panel-imagenes" class="panel oculto"></div>
+            <div id="panel-referencias" class="panel oculto"></div>
+            <div id="panel-yaml" class="panel oculto"></div>
+          </div>
+
+          <aside class="resultado">
+            <div class="resultado-cabecera">
+              <h3>Resultado</h3>
+              <div id="pestanas-resultado" class="pestanas-resultado"></div>
+            </div>
+            <div id="vista" class="vista">
+              <p class="ayuda">Genera el documento para ver aquí la vista previa.</p>
+            </div>
+            <details id="registro" class="registro oculto">
+              <summary>Mensajes</summary>
+              <pre id="registro-texto"></pre>
+            </details>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="dialogo-nuevo" class="dialogo">
+    <form method="dialog" id="form-nuevo">
+      <h3>Nuevo documento</h3>
+      <label>Formato
+        <select id="nuevo-formato"></select>
+      </label>
+      <p id="nuevo-descripcion" class="ayuda"></p>
+      <label>Nombre de la carpeta
+        <input id="nuevo-carpeta" placeholder="ej. lab07, proyecto-final" required pattern="[\w\-]+">
+      </label>
+      <p class="ayuda">Se crea en <code>documentos/</code>. Si la carpeta ya existe, el documento se agrega a ella.</p>
+      <div class="dialogo-acciones">
+        <button value="cancelar" class="boton" formnovalidate>Cancelar</button>
+        <button value="crear" class="boton primario">Crear</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -172,6 +172,8 @@ def _normalizar_puntos(puntos) -> list[tuple[int, str]]:
     """
     salida = []
     for p in a_lista(puntos):
+        if not p:
+            continue  # puntos vacíos (por ejemplo, recién agregados desde la interfaz)
         if isinstance(p, dict):
             salida.append((0, p.get("texto", "")))
             for s in a_lista(p.get("sub")):
