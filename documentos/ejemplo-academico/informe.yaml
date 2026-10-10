@@ -1,0 +1,75 @@
+# ============================================================================
+#  INFORME ACADÉMICO (PDF y Word)
+#  Portada + índice + secciones + referencias.
+#  Todo valor se lee como texto.
+# ============================================================================
+
+formato: informe-academico
+
+# Salidas por defecto (pdf, docx). En la línea de comandos: --salida pdf / docx
+salidas: [pdf, docx]
+
+# Nombre de los archivos generados (opcional)
+archivo: Informe_Academico_Ejemplo
+
+portada:
+  # Si se omiten, se usan los de config/institucion.yaml
+  universidad: UNIVERSIDAD NACIONAL DE SAN AGUSTÍN DE AREQUIPA
+  facultad: FACULTAD DE INGENIERÍA DE PRODUCCIÓN Y SERVICIOS
+  escuela: ESCUELA PROFESIONAL DE INGENIERÍA DE SISTEMAS
+  # logo: assets/logos/escudo_unsa.png
+  tipo: INFORME
+  titulo: TÍTULO DEL INFORME O DEL PROYECTO
+  curso: NOMBRE DEL CURSO
+  docentes:
+    - Mg. NOMBRE DEL DOCENTE
+  miembros:
+    - APELLIDOS NOMBRES DEL INTEGRANTE 1
+    - APELLIDOS NOMBRES DEL INTEGRANTE 2
+    - APELLIDOS NOMBRES DEL INTEGRANTE 3
+  lugar: AREQUIPA - PERÚ
+  anio: 2026
+  # Textos de las etiquetas de la portada (opcional)
+  etiquetas:
+    curso: "CURSO:"
+    docentes: "DOCENTE:"
+    miembros: "MIEMBROS:"
+
+indice:
+  mostrar: true
+  titulo: ÍNDICE
+  profundidad: 2        # 1 = solo secciones, 2 = secciones y subtítulos, 3 = todo
+  figuras: true         # índice de figuras
+  tablas: true          # índice de tablas
+
+# Numeración automática de títulos: vacío (sin numerar), "1." o "1.1."
+numeracion_titulos:
+
+# ----------------------------------------------------------------------------
+#  SECCIONES: cada una es un título principal con su contenido (.typ).
+#  Dentro del contenido, "= Subtítulo" y "== Subsubtítulo".
+#  nueva_pagina: true  -> la sección empieza en una página nueva.
+# ----------------------------------------------------------------------------
+secciones:
+  - titulo: INTRODUCCIÓN
+    contenido: contenido/01_introduccion.typ
+  - titulo: DESARROLLO
+    contenido: contenido/02_desarrollo.typ
+  - titulo: CONCLUSIONES
+    contenido: contenido/03_conclusiones.typ
+  - titulo: ANEXOS
+    nueva_pagina: true
+    contenido: contenido/04_anexos.typ
+
+referencias:
+  titulo: REFERENCIAS
+  archivo: referencias.bib
+  estilo: ieee          # en el PDF también: apa
+  incluir_todas: false
+
+# Colores y fuentes (opcional; por defecto los de la plantilla)
+# estilo:
+#   fuente: Times New Roman
+#   color_encabezado: "#FCE5CD"   # encabezado de tablas
+#   color_borde: "#C4C7C5"        # bordes de tablas
+#   color_acento: "#B45F06"       # notas

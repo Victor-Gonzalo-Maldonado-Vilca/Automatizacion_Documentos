@@ -4,3 +4,6 @@ output/
 __pycache__/
 *.pyc
 ~$*
+
+# Plantilla original con datos de un trabajo anterior (la base limpia está en plantillas/informe-academico/)
+plantilla2.docx
