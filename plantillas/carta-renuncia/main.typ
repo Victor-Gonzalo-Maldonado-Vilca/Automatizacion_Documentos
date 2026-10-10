@@ -1,19 +1,23 @@
-#let d = yaml("/documentos/ejemplo-carta-renuncia/carta.yaml")
+#let d = yaml("/plantillas/carta-renuncia/nuevo/carta.yaml")
 #let dest = d.at("destinatario")
 #let rem = d.at("remitente")
 #let ren = d.at("renuncia")
 
+#let vacio(v) = v == none or str(v).trim() == ""
+#let req(v, nombre) = if vacio(v) {
+  text(fill: red)[*[FALTA: #nombre]*]
+} else { v }
+
 #set page(paper: "a4", margin: 2.5cm)
 #set text(font: "Times New Roman", size: 12pt, lang: "es")
-#set par(justify: true, leading: 0.8em)
+#set par(justify: true, leading: 0.8em, spacing: 1.4em)
 
 //Lugar y Fecha
-#align(right)[Arequipa, 11 de octubre de 2026]
-
+#align(right)[#req(d.at("lugar"), "Lugar"), #req(d.at("fecha"), "Fecha")]
 // Destinatario
-*Sr. Juan Perez*\ 
-Gerente\ 
-Leche Gloria\
+*#req(dest.at("tratamiento"), "Tratamiento") #req(dest.at("nombre"), "Nombre_Destinatario")*\ 
+#req(dest.at("cargo"), "Cargo_Destinatario")\ 
+#req(dest.at("organizacion"), "Organizacion o Empresa")\
 Presente.-
 
 #v(0.8cm)
@@ -22,10 +26,21 @@ Presente.-
 
 #v(0.6cm)
 
-Yo, *Victor Gonzalo Maldonado Vilca*, identificado con DNI N.° 76602403, *Desarrollador de Software* en el área de *Frontend*, me dirijo a usted con la finalidad de presentar mi renuncia irrevocable al puesto que ocupo en la organización.
-Esta decisión responde a la necesidad de asumir nuevos compromisos de carácter estrictamente académico y formativo, los cuales resultan incompatibles con mi jornada laboral actual. En ese sentido, solicito la exoneración del plazo de preaviso de 30 días fijado por ley, siendo mi última fecha efectiva de labores el *25 de octubre de 2026*.
+Yo, *#req(rem.at("nombre"), "Nombre_Remitente")*, identificado con DNI N.° #req(rem.at("dni"), "DNI"), *#req(rem.at("cargo"), "Cargo_Remitente")* en el área de *#req(rem.at("area"), "Area_Remitente")*, me dirijo a usted con la finalidad de presentar mi renuncia irrevocable al puesto que ocupo en la organización.
+#if not vacio(ren.at("motivo")) [#ren.at("motivo").]
+#if ren.at("exoneracion_preaviso") == true [
+    En ese sentido, solicito la exoneración del plazo de preaviso de 30 días fijado por ley,
+] else [
+    En ese sentido, cumpliré con el plazo de preaviso de 30 días establecido por ley,
+]
+siendo mi última fecha efectiva de labores el *#req(ren.at("fecha_efectiva"), "Fecha_Efectiva")*.
 
-Asimismo, expreso mi sincero agradecimiento a la empresa y a mi equipo por la confianza brindada y el grato ambiente de trabajo durante mi permanencia en la institución.
+#let agr = d.at("agradecimientos", default: none)
+#if type(agr) == array {
+    for a in agr.filter(x => not vacio(x)) [
+        #a\
+    ]
+}
 
 Sin otro particular, quedo a su disposición para coordinar la entrega de mi puesto y pendientes.
 
@@ -35,7 +50,7 @@ Atentamente,
 #align(center)[
     #line(length: 6.5cm)
     #v(0.3cm)
-    *Victor Gonzalo Maldonado Vilca*\
-    DNI: 76602403\
-    Desarrollador de Software
+    *#req(rem.at("nombre"), "Nombre_Remitente")*\
+    DNI: #req(rem.at("dni"), "DNI")\
+    #req(rem.at("cargo"), "Cargo_Remitente")
 ]
