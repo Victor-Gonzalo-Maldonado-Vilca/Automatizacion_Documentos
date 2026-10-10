@@ -2,15 +2,15 @@
 //  COMPONENTES DEL INFORME
 //  Medidas extraídas de plantilla.docx (1 twip = 1/20 pt).
 //  Los archivos de contenido de cada documento importan este módulo:
-//    #import "/plantillas/informe/componentes.typ": *
+//    #import "/plantillas/informe-laboratorio/componentes.typ": *
 // ============================================================================
 
 #let tw(n) = n * 1pt / 20
 
 // --- Datos de compilación --------------------------------------------------
 // El generador (src/generar.py) pasa la ruta del JSON con los datos ya
-// combinados (config/institucion.yaml + datos.yaml del documento).
-#let _datos = json(sys.inputs.at("datos", default: "/plantillas/informe/vacio.json"))
+// combinados (config/institucion.yaml + informe.yaml del documento).
+#let _datos = json(sys.inputs.at("datos", default: "/plantillas/informe-laboratorio/vacio.json"))
 #let estilo = _datos.at("estilo", default: (:))
 #let dir-doc = _datos.at("dir", default: "/")
 

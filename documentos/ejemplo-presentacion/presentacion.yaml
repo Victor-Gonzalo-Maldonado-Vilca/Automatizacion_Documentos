@@ -1,0 +1,156 @@
+# ============================================================================
+#  PRESENTACIÓN (PPTX)
+#  Documento independiente: no necesita ningún informe.
+#
+#  Tipos: portada, agenda, seccion, contenido, dos_columnas, imagen, tabla,
+#         codigo, destacado, metricas, referencias, cierre
+#  Cualquier diapositiva admite `notas:` (notas del orador).
+#  En los textos: **negrita** y `código`.
+# ============================================================================
+
+formato: presentacion
+
+# Salidas que se generan por defecto (pptx, pdf). El PDF se exporta con
+# PowerPoint (o LibreOffice). Desde la línea de comandos: --salida pdf
+salidas: [pptx, pdf]
+
+# Datos de la portada, el pie y el cierre.
+datos:
+  etiqueta: Exposición académica
+  titulo: Automatización de Documentos Académicos
+  subtitulo: Nombre del Curso o Evento
+  autores:
+    - Nombre Apellido
+    - Nombre Apellido
+  docentes:
+    - M.Sc. Ing. Nombre del Docente
+  fecha: Octubre 2026
+  referencias: referencias.bib
+  # Títulos de las columnas de la portada (opcional)
+  etiquetas:
+    autores: EXPOSITORES
+    docentes: DOCENTE
+    fecha: FECHA
+  # pie: Texto del pie de página (por defecto: subtítulo · universidad)
+
+# Para reutilizar los datos de un informe de la MISMA carpeta, en vez de
+# escribirlos de nuevo (lo escrito en `datos:` tiene prioridad):
+# desde: informe.yaml
+
+# Tema de colores (plantillas/presentacion/temas.yaml):
+# unsa, azul, verde, vino, grafito, noche
+tema: azul
+
+# Cambiar solo algunos colores del tema (opcional):
+# colores:
+#   primario: "#0B5394"
+#   acento: "#F1C232"
+
+opciones:
+  numeracion: true
+  barra_progreso: true
+  mostrar_seccion: true          # nombre de la sección actual sobre el título
+  logo_en_diapositivas: true     # logo pequeño arriba a la derecha
+
+# Nombre del archivo (opcional)
+archivo: Presentacion_Automatizacion
+
+diapositivas:
+  - tipo: portada
+
+  - tipo: agenda
+    titulo: Contenido
+    # sin `puntos`, se arma con los títulos de las diapositivas de sección
+
+  - tipo: seccion
+    titulo: Introducción
+    subtitulo: Problema y objetivos
+
+  - tipo: contenido
+    titulo: Planteamiento del problema
+    texto: Elaborar documentos académicos a mano presenta varias dificultades
+    puntos:
+      - Se invierte mucho tiempo en **dar formato** en lugar de en el contenido.
+      - texto: Los errores de formato son frecuentes
+        sub:
+          - Numeración de figuras y tablas desactualizada.
+          - Referencias con estilos inconsistentes.
+      - Cada nuevo documento obliga a repetir el mismo trabajo.
+    destacado: "**Idea clave:** separar el contenido del diseño permite generar documentos consistentes en segundos."
+    notas: Estas son notas del orador; aparecen en la vista de moderador de PowerPoint.
+
+  - tipo: dos_columnas
+    titulo: Enfoque manual frente a automatizado
+    izquierda:
+      subtitulo: Manual
+      puntos:
+        - Formato aplicado documento por documento.
+        - Difícil de mantener consistente.
+        - Cambios de diseño costosos.
+    derecha:
+      subtitulo: Automatizado
+      puntos:
+        - Datos en archivos `YAML`.
+        - Diseño centralizado en plantillas.
+        - Un solo comando genera el documento.
+
+  - tipo: seccion
+    titulo: Propuesta
+    subtitulo: Arquitectura e implementación
+
+  - tipo: imagen
+    titulo: Resultado de ejemplo
+    imagen: imagenes/captura_ejemplo.png
+    pie: Captura de ejemplo incluida en una diapositiva.
+    puntos:
+      - Las imágenes se ajustan sin deformarse.
+      - El pie se numera automáticamente.
+      - Se pueden acompañar con texto.
+
+  - tipo: codigo
+    titulo: Generación desde la línea de comandos
+    archivo: codigo/ejemplo.py
+    puntos:
+      - Cada documento declara su `formato`.
+      - El generador elige la plantilla adecuada.
+      - Se pueden sumar nuevos formatos sin tocar los existentes.
+
+  - tipo: tabla
+    titulo: Comparación de herramientas
+    pie: Herramientas evaluadas para la generación de documentos.
+    encabezado: [Herramienta, Uso, Salida, Ventaja principal]
+    anchos: [2, 3, 1, 4]
+    filas:
+      - [Typst, Informes y artículos, PDF, Compilación rápida y tipografía de calidad]
+      - [python-pptx, Presentaciones, PPTX, Archivo editable en PowerPoint]
+      - [YAML, Datos del documento, —, Fácil de leer y modificar]
+
+  - tipo: metricas
+    titulo: Indicadores
+    items:
+      - { valor: "< 1 s", etiqueta: Tiempo de generación, detalle: Por documento }
+      - { valor: "6", etiqueta: Temas de color, detalle: Intercambiables }
+      - { valor: "12", etiqueta: Tipos de diapositiva, detalle: Combinables libremente }
+
+  - tipo: seccion
+    titulo: Conclusiones
+
+  - tipo: contenido
+    titulo: Conclusiones
+    puntos:
+      - Separar contenido y diseño mejora la consistencia de los documentos.
+      - La automatización reduce el tiempo dedicado al formato.
+      - La arquitectura por formatos facilita agregar nuevos tipos de documento.
+
+  - tipo: destacado
+    texto: Aquí va una cita textual o la idea central que se quiere dejar en la audiencia.
+    autor: Autor de la cita (Año)
+
+  - tipo: referencias
+    titulo: Referencias
+    # usa `datos.referencias`; con `claves:` se eligen y ordenan entradas
+    claves: [typst_docs, python_docs, ieee_guide]
+
+  - tipo: cierre
+    titulo: ¡Gracias!
+    subtitulo: ¿Preguntas?

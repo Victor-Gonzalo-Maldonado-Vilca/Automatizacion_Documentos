@@ -1,4 +1,4 @@
-#import "/plantillas/informe/componentes.typ": *
+#import "/plantillas/informe-laboratorio/componentes.typ": *
 
 = Ejercicio 1: Descripción del problema
 

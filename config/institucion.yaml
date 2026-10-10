@@ -1,6 +1,6 @@
 # ============================================================================
 #  CONFIGURACIÓN INSTITUCIONAL (compartida por todos los documentos)
-#  Cualquier valor puede sobreescribirse en el `datos.yaml` de cada documento
+#  Cualquier valor puede sobreescribirse en el YAML de cada documento
 #  usando las mismas claves.
 # ============================================================================
 
@@ -11,9 +11,12 @@ institucion:
   # Rutas relativas a la raíz del proyecto
   logo_izquierdo: assets/logos/ingenieria_sistemas.png
   logo_derecho: assets/logos/abet.png
+  # Escudo para portadas (informe académico)
+  logo_portada: assets/logos/escudo_unsa.png
 
-formato:
-  nombre: Guía de Práctica de Laboratorio / Talleres / Centros de Simulación
+# Fila "Formato / Aprobación / Código" del encabezado del informe
+encabezado:
+  formato: Guía de Práctica de Laboratorio / Talleres / Centros de Simulación
   aprobacion: 2022/03/01
   codigo: GUIA-PRLE-001
 

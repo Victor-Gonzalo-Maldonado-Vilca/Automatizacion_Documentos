@@ -1,4 +1,4 @@
-#import "/plantillas/informe/componentes.typ": *
+#import "/plantillas/informe-laboratorio/componentes.typ": *
 
 // Escribe aquí la solución. Componentes disponibles:
 //   #captura("imagenes/archivo.png", [Pie de figura]) <fig:etiqueta>

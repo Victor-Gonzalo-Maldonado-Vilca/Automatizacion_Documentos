@@ -1,4 +1,4 @@
-#import "/plantillas/informe/componentes.typ": *
+#import "/plantillas/informe-laboratorio/componentes.typ": *
 
 + Primera conclusión del trabajo realizado.
 + Segunda conclusión, relacionada con los resultados de la @tab:resultados.

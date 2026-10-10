@@ -1,6 +1,6 @@
 # ============================================================================
 #  TEMAS DE COLOR PARA LAS DIAPOSITIVAS
-#  Se elige en diapositivas.yaml con `tema: <nombre>` o con --tema <nombre>.
+#  Se elige en presentacion.yaml con `tema: <nombre>` o con --tema <nombre>.
 #  Para un tema propio, copia uno y cambia los colores.
 #  En diapositivas.yaml también puedes cambiar solo algunos colores:
 #      colores: { primario: "#0B5394" }

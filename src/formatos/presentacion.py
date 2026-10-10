@@ -1,4 +1,8 @@
-"""Generación de diapositivas PPTX con estilo académico y temas de color."""
+"""Formato: presentación académica (PPTX y PDF) con temas de color.
+
+Es independiente de los demás formatos: la portada usa los datos del propio
+presentacion.yaml. Opcionalmente puede tomarlos de un informe con `desde:`.
+"""
 
 from __future__ import annotations
 
@@ -14,9 +18,15 @@ from pptx.oxml.ns import qn
 from pptx.util import Emu, Inches, Pt
 
 from bib import formato_ieee, leer_bib
-from datos import RAIZ, ErrorDatos, a_lista, cargar_documento, combinar, leer_yaml, slug
+from resaltado import resaltar
+from datos import CONFIG_INSTITUCION, RAIZ, ErrorDatos, a_lista, combinar, leer_yaml, slug
 
-TEMAS = RAIZ / "plantillas" / "pptx" / "temas.yaml"
+NOMBRE = "presentacion"
+DESCRIPCION = "Presentación académica con temas de color"
+ARCHIVO = "presentacion.yaml"
+PLANTILLA_NUEVO = RAIZ / "plantillas" / "presentacion" / "nuevo"
+SALIDAS = ("pptx", "pdf")
+TEMAS = RAIZ / "plantillas" / "presentacion" / "temas.yaml"
 ANCHO, ALTO = 13.333, 7.5          # 16:9 en pulgadas
 MX = 0.6                           # margen lateral
 TOPE_CUERPO, FONDO_CUERPO = 1.75, 6.75
@@ -229,10 +239,9 @@ def lista_puntos(lz: Lienzo, x, y, w, h, puntos, tam_max=22, texto_previo: str =
 # ============================================================================
 
 class Generador:
-    def __init__(self, carpeta: Path, tema_cli: str | None):
-        self.carpeta = carpeta
-        self.datos = cargar_documento(carpeta)
-        self.cfg = leer_yaml(carpeta / "diapositivas.yaml")
+    def __init__(self, ruta_yaml: Path, tema_cli: str | None):
+        self.carpeta = ruta_yaml.parent
+        self.cfg = leer_yaml(ruta_yaml)
         temas = leer_yaml(TEMAS)
         fuentes = temas.pop("_fuentes", {})
         nombre = tema_cli or self.cfg.get("tema") or "unsa"
@@ -240,8 +249,14 @@ class Generador:
             raise ErrorDatos(f"Tema '{nombre}' no existe. Disponibles: {', '.join(temas)}")
         self.tema = combinar(combinar(fuentes, temas[nombre]), self.cfg.get("colores") or {})
         self.op = self.cfg.get("opciones") or {}
-        self.info = self.datos.get("informacion", {})
-        self.inst = self.datos.get("institucion", {})
+        # Institución: configuración común + cambios propios de la presentación.
+        inst = leer_yaml(CONFIG_INSTITUCION).get("institucion", {})
+        self.inst = combinar(inst, self.cfg.get("institucion") or {})
+        # Datos de portada: propios, o tomados de otro documento con `desde:`.
+        base = _datos_desde(self.carpeta / self.cfg["desde"]) if self.cfg.get("desde") else {}
+        self.meta = combinar(base, self.cfg.get("datos") or {})
+        self.etq = combinar({"autores": "AUTORES", "docentes": "DOCENTE", "fecha": "FECHA"},
+                            self.meta.get("etiquetas") or {})
         self.prs = Presentation()
         self.prs.slide_width, self.prs.slide_height = Inches(ANCHO), Inches(ALTO)
         self.layout = self.prs.slide_layouts[6]  # en blanco
@@ -270,7 +285,9 @@ class Generador:
         pie = self.op.get("pie", "")
         if pie:
             return pie
-        partes = [self.info.get("asignatura", ""), _titulo_es(self.inst.get("universidad", ""))]
+        if self.meta.get("pie"):
+            return self.meta["pie"]
+        partes = [self.meta.get("subtitulo", ""), _titulo_es(self.inst.get("universidad", ""))]
         return "  ·  ".join(p for p in partes if p)
 
     def marco(self, lz: Lienzo, titulo: str, indice: int, total: int):
@@ -300,7 +317,7 @@ class Generador:
 
     # --- tipos de diapositiva ---------------------------------------------------
     def portada(self, d, i, n):
-        t, info = self.tema, self.info
+        t, m = self.tema, self.meta
         lz = self.nueva()
         lz.rect(0, 0, ANCHO, 0.14, t["primario"])
         # logos
@@ -309,24 +326,22 @@ class Generador:
             lz.imagen(self.ruta_raiz(li), MX, 0.45, 2.6, 0.95)
         if ld:
             lz.imagen(self.ruta_raiz(ld), ANCHO - MX - 1.0, 0.45, 1.0, 0.95)
-        doc = self.datos.get("documento", {})
-        numero = info.get("numero", "")
-        kicker = d.get("etiqueta") or " · ".join(x for x in (doc.get("tipo", ""), f"N.º {numero}" if numero else "") if x)
+        kicker = d.get("etiqueta") or m.get("etiqueta", "")
         lz.texto(MX, 1.95, 11, 0.35, kicker.upper(), 13, t["primario"], True, espaciado=2)
-        titulo = d.get("titulo") or info.get("titulo", "")
+        titulo = d.get("titulo") or m.get("titulo", "")
         tam = 40 if len(titulo) <= 45 else 34 if len(titulo) <= 80 else 28
         lz.texto(MX, 2.38, 11.6, 1.75, titulo, tam, t["texto"], True, fuente=t["fuente_titulos"],
                  ancla=MSO_ANCHOR.MIDDLE, interlinea=0.95)
         lz.rect(MX, 4.25, 1.1, 0.07, t["primario"])
-        sub = d.get("subtitulo") or info.get("asignatura", "")
+        sub = d.get("subtitulo") or m.get("subtitulo", "")
         lz.texto(MX, 4.45, 11.6, 0.5, sub, 20, t["texto_suave"])
         # franja inferior con autores, docente y fecha
         y0 = 5.35
         lz.rect(0, y0, ANCHO, ALTO - y0, t["oscuro"])
         cols = [
-            ("INTEGRANTES", a_lista(d.get("autores") or info.get("integrantes"))),
-            ("DOCENTE", a_lista(d.get("docentes") or info.get("docentes"))),
-            ("FECHA", [d.get("fecha") or " · ".join(x for x in (info.get("fecha", ""), info.get("anio_lectivo", "")) if x)]),
+            (self.etq["autores"], a_lista(d.get("autores") or m.get("autores"))),
+            (self.etq["docentes"], a_lista(d.get("docentes") or m.get("docentes"))),
+            (self.etq["fecha"], a_lista(d.get("fecha") or m.get("fecha"))),
         ]
         anchos = [5.6, 4.0, 2.2]
         x = MX
@@ -541,7 +556,7 @@ class Generador:
         h_caja = min(h - 0.4, len(lineas) * tam * 1.3 / 72 + 0.4)
         lz.rect(x, TOPE_CUERPO + 0.4, w, h_caja, fondo_cod)
         tf = lz.texto(x + 0.2, TOPE_CUERPO + 0.55, w - 0.3, h_caja - 0.2)
-        tokens = _resaltar(codigo, d.get("lenguaje", ""), nombre)
+        tokens = resaltar(codigo, d.get("lenguaje", ""), nombre)
         ancho_num = len(str(len(lineas)))
         for k, linea in enumerate(tokens):
             p = tf.paragraphs[0] if k == 0 else tf.add_paragraph()
@@ -599,7 +614,7 @@ class Generador:
         t = self.tema
         lz = self.nueva()
         self.marco(lz, d.get("titulo", "Referencias"), i, n)
-        archivo = d.get("archivo") or self.datos.get("referencias", {}).get("archivo", "")
+        archivo = d.get("archivo") or self.meta.get("referencias", "")
         if not archivo:
             raise ErrorDatos("La diapositiva de referencias necesita un archivo .bib")
         entradas = leer_bib(self.ruta(archivo))
@@ -637,7 +652,7 @@ class Generador:
         lz.rect(ANCHO / 2 - 0.6, 3.6, 1.2, 0.07, t["primario"])
         lz.texto(MX, 3.9, ANCHO - 2 * MX, 0.6, d.get("subtitulo", "¿Preguntas?"), 24, t["acento"],
                  alinear=PP_ALIGN.CENTER)
-        contacto = d.get("contacto") or "  ·  ".join(a_lista(self.info.get("integrantes")))
+        contacto = d.get("contacto") or "  ·  ".join(a_lista(self.meta.get("autores")))
         if contacto:
             lz.texto(1.2, 5.4, ANCHO - 2.4, 0.9, contacto, 13, _mezclar(t["texto_claro"], t["oscuro"], 0.3),
                      alinear=PP_ALIGN.CENTER)
@@ -649,7 +664,7 @@ class Generador:
     def construir(self) -> Presentation:
         diapositivas = a_lista(self.cfg.get("diapositivas"))
         if not diapositivas:
-            raise ErrorDatos("diapositivas.yaml no tiene ninguna diapositiva en 'diapositivas:'")
+            raise ErrorDatos(f"{self.carpeta.name}: el YAML no tiene ninguna diapositiva en 'diapositivas:'")
         self.secciones = [d for d in diapositivas if d.get("tipo") == "seccion"]
         n = len(diapositivas)
         for i, d in enumerate(diapositivas, start=1):
@@ -657,82 +672,63 @@ class Generador:
             if tipo not in TIPOS:
                 raise ErrorDatos(f"Diapositiva {i}: tipo desconocido '{tipo}'. Tipos: {', '.join(TIPOS)}")
             getattr(self, tipo)(d, i, n)
-        self.prs.core_properties.title = self.info.get("titulo", "")
-        self.prs.core_properties.author = ", ".join(a_lista(self.info.get("integrantes")))
+        self.prs.core_properties.title = self.meta.get("titulo", "")
+        self.prs.core_properties.author = ", ".join(a_lista(self.meta.get("autores")))
         return self.prs
 
 
 TIPOS = ["portada", "agenda", "seccion", "contenido", "dos_columnas", "imagen", "tabla",
          "codigo", "destacado", "metricas", "referencias", "cierre"]
 
-# Colores tipo "Dark+" para el resaltado de código.
-_COLORES_CODIGO = [
-    ("Comment", "#6A9955", True),
-    ("Keyword.Type", "#4EC9B0", False),
-    ("Keyword", "#569CD6", False),
-    ("Name.Class", "#4EC9B0", False),
-    ("Name.Function", "#DCDCAA", False),
-    ("Name.Decorator", "#DCDCAA", False),
-    ("Name.Builtin", "#4EC9B0", False),
-    ("Name.Attribute", "#9CDCFE", False),
-    ("Literal.String", "#CE9178", False),
-    ("Literal.Number", "#B5CEA8", False),
-    ("Operator", "#D4D4D4", False),
-    ("Punctuation", "#D4D4D4", False),
-]
+def _datos_desde(ruta: Path) -> dict:
+    """Datos de portada tomados de otro documento (por ahora, un informe de laboratorio)."""
+    d = leer_yaml(ruta)
+    info = d.get("informacion")
+    if not info:
+        raise ErrorDatos(f"`desde: {ruta.name}`: el archivo no tiene la sección 'informacion'")
+    numero = info.get("numero", "")
+    tipo = d.get("documento", {}).get("tipo", "")
+    return {
+        "titulo": info.get("titulo", ""),
+        "subtitulo": info.get("asignatura", ""),
+        "etiqueta": " · ".join(x for x in (tipo, f"N.º {numero}" if numero else "") if x),
+        "autores": a_lista(info.get("integrantes")),
+        "docentes": a_lista(info.get("docentes")),
+        "fecha": " · ".join(x for x in (info.get("fecha", ""), info.get("anio_lectivo", "")) if x),
+        "referencias": d.get("referencias", {}).get("archivo", ""),
+        "etiquetas": {"autores": "INTEGRANTES"},
+    }
 
 
-def _resaltar(codigo: str, lenguaje: str, nombre: str) -> list[list[tuple[str, str, bool]]]:
-    """Divide el código en líneas de segmentos (texto, color, cursiva)."""
-    try:
-        from pygments.lexers import get_lexer_by_name, get_lexer_for_filename
-        from pygments.util import ClassNotFound
-        try:
-            lexer = get_lexer_by_name(lenguaje) if lenguaje else get_lexer_for_filename(nombre or "x.txt")
-        except ClassNotFound:
-            lexer = None
-    except ImportError:
-        lexer = None
-    if lexer is None:
-        return [[(l, "#D4D4D4", False)] for l in codigo.splitlines()]
-
-    lineas: list[list[tuple[str, str, bool]]] = [[]]
-    for tipo, valor in lexer.get_tokens(codigo):
-        nombre_tipo = str(tipo).removeprefix("Token.")
-        color, cursiva = "#D4D4D4", False
-        for prefijo, c, it in _COLORES_CODIGO:
-            if nombre_tipo.startswith(prefijo):
-                color, cursiva = c, it
-                break
-        partes = valor.split("\n")
-        for k, parte in enumerate(partes):
-            if k > 0:
-                lineas.append([])
-            if parte:
-                lineas[-1].append((parte, color, cursiva))
-    while lineas and not lineas[-1]:
-        lineas.pop()
-    return lineas
-
-
-def nombre_pptx(carpeta: Path, cfg: dict, datos: dict) -> str:
+def nombre_pptx(ruta_yaml: Path, cfg: dict, meta: dict) -> str:
     archivo = cfg.get("archivo", "")
     if archivo:
         return archivo.removesuffix(".pptx") + ".pptx"
-    titulo = datos.get("informacion", {}).get("titulo", "") or carpeta.name
+    titulo = meta.get("titulo", "") or ruta_yaml.parent.name
     return f"Presentacion_{slug(titulo)}.pptx"
 
 
-def generar_presentacion(carpeta: Path, salida: Path, tema: str | None = None) -> Path:
-    g = Generador(carpeta, tema)
+def generar(ruta_yaml: Path, salida: Path, opciones: dict) -> list[Path]:
+    g = Generador(ruta_yaml, opciones.get("tema"))
     prs = g.construir()
     salida.mkdir(parents=True, exist_ok=True)
-    destino = salida / nombre_pptx(carpeta, g.cfg, g.datos)
+    nombre = nombre_pptx(ruta_yaml, g.cfg, g.meta)
+    salidas = opciones["salidas"]
+    # El PDF se exporta desde el PPTX; si no se pidió el PPTX, se usa uno temporal.
+    if "pptx" in salidas:
+        pptx = salida / nombre
+    else:
+        (RAIZ / ".build").mkdir(exist_ok=True)
+        pptx = RAIZ / ".build" / nombre
     try:
-        prs.save(destino)
+        prs.save(pptx)
     except PermissionError as e:
-        raise ErrorDatos(f"No se pudo guardar {destino.name}: ciérralo en PowerPoint y vuelve a intentar.") from e
-    return destino
+        raise ErrorDatos(f"No se pudo guardar {pptx.name}: ciérralo en PowerPoint y vuelve a intentar.") from e
+    archivos = [pptx] if "pptx" in salidas else []
+    if "pdf" in salidas:
+        from office import a_pdf
+        archivos.append(a_pdf(pptx, salida / (Path(nombre).stem + ".pdf")))
+    return archivos
 
 
 def listar_temas() -> None:

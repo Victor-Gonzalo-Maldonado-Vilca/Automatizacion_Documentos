@@ -1,0 +1,57 @@
+# Presentación (PPTX). Ejemplo completo con todos los tipos de diapositiva:
+# documentos/ejemplo-presentacion/presentacion.yaml
+
+formato: presentacion
+
+# Salidas que se generan por defecto (pptx, pdf). El PDF se exporta con
+# PowerPoint (o LibreOffice). Desde la línea de comandos: --salida pdf
+salidas: [pptx, pdf]
+
+datos:
+  etiqueta:
+  titulo:
+  subtitulo:
+  autores:
+    -
+  docentes:
+    -
+  fecha:
+  referencias:         # ej. referencias.bib
+  etiquetas:
+    autores: AUTORES
+    docentes: DOCENTE
+    fecha: FECHA
+
+# Para tomar los datos de un informe de esta misma carpeta:
+# desde: informe.yaml
+
+tema: unsa
+
+opciones:
+  numeracion: true
+  barra_progreso: true
+
+diapositivas:
+  - tipo: portada
+
+  - tipo: agenda
+    titulo: Contenido
+
+  - tipo: seccion
+    titulo: Introducción
+
+  - tipo: contenido
+    titulo: Título de la diapositiva
+    puntos:
+      - Primer punto.
+      - Segundo punto.
+
+  - tipo: seccion
+    titulo: Conclusiones
+
+  - tipo: contenido
+    titulo: Conclusiones
+    puntos:
+      - Primera conclusión.
+
+  - tipo: cierre

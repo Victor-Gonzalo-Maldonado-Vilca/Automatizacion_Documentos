@@ -53,13 +53,6 @@ def combinar(base: dict, extra: dict) -> dict:
     return resultado
 
 
-def cargar_documento(carpeta: Path) -> dict:
-    """Datos del documento ya combinados con la configuración institucional."""
-    datos = combinar(leer_yaml(CONFIG_INSTITUCION), leer_yaml(carpeta / "datos.yaml"))
-    datos["dir"] = "/" + carpeta.resolve().relative_to(RAIZ).as_posix()
-    return datos
-
-
 def a_lista(valor) -> list:
     if valor in (None, ""):
         return []

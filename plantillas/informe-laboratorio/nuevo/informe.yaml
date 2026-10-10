@@ -1,4 +1,10 @@
-# Datos del documento. Ver documentos/ejemplo/datos.yaml para un ejemplo completo.
+# Informe de laboratorio (PDF). Ejemplo completo: documentos/ejemplo-laboratorio/informe.yaml
+
+formato: informe-laboratorio
+
+# Salidas que se generan por defecto (pdf, docx). Desde la línea de comandos
+# se puede elegir otra con --salida pdf / --salida docx / --salida pdf,docx
+salidas: [pdf, docx]
 
 documento:
   tipo: INFORME DE LABORATORIO

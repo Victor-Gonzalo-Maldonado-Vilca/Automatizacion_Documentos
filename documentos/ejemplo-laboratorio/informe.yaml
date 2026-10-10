@@ -1,9 +1,15 @@
 # ============================================================================
-#  DATOS DEL DOCUMENTO
+#  INFORME DE LABORATORIO (PDF)
 #  Todo valor se lee como texto: "06" se mantiene como 06 y 23:59 como 23:59.
-#  Cualquier clave de config/institucion.yaml (institucion, formato, estilo,
-#  etiquetas) puede sobreescribirse aquí solo para este documento.
+#  Cualquier clave de config/institucion.yaml (institucion, encabezado,
+#  estilo, etiquetas) puede sobreescribirse aquí solo para este documento.
 # ============================================================================
+
+formato: informe-laboratorio
+
+# Salidas que se generan por defecto (pdf, docx). Desde la línea de comandos
+# se puede elegir otra con --salida pdf / --salida docx / --salida pdf,docx
+salidas: [pdf, docx]
 
 documento:
   tipo: INFORME DE LABORATORIO

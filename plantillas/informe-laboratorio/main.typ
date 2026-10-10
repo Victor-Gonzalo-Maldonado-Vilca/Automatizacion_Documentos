@@ -1,14 +1,14 @@
 // ============================================================================
 //  PLANTILLA: INFORME DE LABORATORIO (réplica de plantilla.docx)
 //  No se edita por documento: todo sale del JSON generado por src/generar.py
-//    typst compile --root . --input datos=/.build/<doc>.json plantillas/informe/main.typ
+//    typst compile --root . --input datos=/.build/<doc>.json plantillas/informe-laboratorio/main.typ
 // ============================================================================
 
 #import "componentes.typ": *
 
 #let d = _datos
 #let inst = d.at("institucion", default: (:))
-#let fmt = d.at("formato", default: (:))
+#let fmt = d.at("encabezado", default: (:))
 #let info = d.at("informacion", default: (:))
 #let et = d.at("etiquetas", default: (:))
 #let doc-meta = d.at("documento", default: (:))
@@ -65,7 +65,7 @@
       if logo != none and logo != "" { image("/" + logo, height: 1.40cm, fit: "contain") }
     },
     table.cell(colspan: 3)[
-      Formato: #text(weight: "regular", txt(fmt.at("nombre", default: "")))
+      Formato: #text(weight: "regular", txt(fmt.at("formato", default: "")))
     ],
     [Aprobación:  #txt(fmt.at("aprobacion", default: ""))],
     [Código: #txt(fmt.at("codigo", default: ""))],

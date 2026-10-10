@@ -1,4 +1,4 @@
-#import "/plantillas/informe/componentes.typ": *
+#import "/plantillas/informe-laboratorio/componentes.typ": *
 
 Respuesta de la tercera pregunta con un fragmento de código en línea, como
 `transform.Rotate()`, y un bloque corto:
