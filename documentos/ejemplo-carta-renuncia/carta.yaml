@@ -1,0 +1,26 @@
+formato: carta-renuncia
+salidas: [pdf]
+
+lugar: Arequipa, Perú
+fecha: 11 de octubre de 2026
+
+destinatario:
+  tratamiento: Sr.
+  nombre: Ing. Nombre del Jefe
+  cargo: Jefe de Área
+  organizacion: Nombre de la Empresa
+
+remitente:
+  nombre: Nombre del Empleado
+  cargo: Cargo del Empleado
+  dni: 12345678
+  area: Área del Empleado
+
+renuncia:
+  motivo: Motivo de la renuncia (por ejemplo, motivos personales, búsqueda de nuevas oportunidades, etc.)
+  fecha_efectiva: 25 de octubre de 2026
+  exoneracion_preaviso: true
+
+agradecimientos:
+  - Agradezco la oportunidad de haber trabajado en esta empresa y por el apoyo brindado durante mi tiempo aquí.
+  - Valoro la experiencia adquirida y las relaciones profesionales que he desarrollado.

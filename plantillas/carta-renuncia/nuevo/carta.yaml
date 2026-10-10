@@ -1,0 +1,25 @@
+formato: carta-renuncia
+salidas: [pdf]
+
+lugar: 
+fecha: 
+
+destinatario:
+  tratamiento: 
+  nombre: 
+  cargo: 
+  organizacion: 
+
+remitente:
+  nombre: 
+  cargo: 
+  dni: 
+  area: 
+
+renuncia:
+  motivo: 
+  fecha_efectiva: 
+  exoneracion_preaviso: 
+
+agradecimientos:
+ 
