@@ -22,14 +22,13 @@ from __future__ import annotations
 
 import argparse
 import os
-import shutil
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from datos import RAIZ, ErrorDatos  # noqa: E402
-from formatos import FORMATOS, documentos_en, elegir_salidas, formato_de  # noqa: E402
+from formatos import FORMATOS, crear_documento, documentos_en, elegir_salidas, formato_de  # noqa: E402
 
 CARPETA_DOCUMENTOS = RAIZ / "documentos"
 CARPETA_SALIDA = RAIZ / "output"
@@ -76,21 +75,8 @@ def generar(docs, opciones: dict, abrir: bool, varios: bool = False) -> None:
 
 
 def nuevo(formato: str, carpeta: Path) -> None:
-    if formato not in FORMATOS:
-        raise ErrorDatos(f"Formato '{formato}' desconocido. Disponibles: {', '.join(FORMATOS)}")
-    modulo = FORMATOS[formato]
-    if (carpeta / modulo.ARCHIVO).exists():
-        raise ErrorDatos(f"Ya existe {carpeta.name}/{modulo.ARCHIVO}")
-    # Copia el esqueleto sin pisar archivos existentes (se puede sumar un
-    # formato a una carpeta que ya tiene otro documento).
-    for origen in modulo.PLANTILLA_NUEVO.rglob("*"):
-        destino = carpeta / origen.relative_to(modulo.PLANTILLA_NUEVO)
-        if origen.is_dir():
-            destino.mkdir(parents=True, exist_ok=True)
-        elif not destino.exists():
-            destino.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(origen, destino)
-    print(f"Creado {carpeta.relative_to(RAIZ).as_posix()}/{modulo.ARCHIVO} ({modulo.DESCRIPCION}).")
+    ruta = crear_documento(formato, carpeta)
+    print(f"Creado {ruta.relative_to(RAIZ).as_posix()} ({FORMATOS[formato].DESCRIPCION}).")
 
 
 def listar_formatos() -> None:

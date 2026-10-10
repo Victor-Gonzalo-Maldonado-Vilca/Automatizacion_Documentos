@@ -16,6 +16,7 @@ a la tupla de abajo.
 
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 
 from datos import ErrorDatos, leer_yaml
@@ -61,3 +62,24 @@ def elegir_salidas(modulo, ruta_yaml: Path, pedidas: list[str] | None) -> list[s
         raise ErrorDatos(f"{ruta_yaml.name}: el formato '{modulo.NOMBRE}' no produce {', '.join(invalidas)}. "
                          f"Salidas posibles: {', '.join(modulo.SALIDAS)}")
     return lista
+
+
+def crear_documento(formato: str, carpeta: Path) -> Path:
+    """Copia el esqueleto de un formato en `carpeta` sin pisar archivos existentes.
+
+    Permite sumar un formato a una carpeta que ya tiene otro documento.
+    Devuelve la ruta del YAML creado.
+    """
+    if formato not in FORMATOS:
+        raise ErrorDatos(f"Formato '{formato}' desconocido. Disponibles: {', '.join(FORMATOS)}")
+    modulo = FORMATOS[formato]
+    if (carpeta / modulo.ARCHIVO).exists():
+        raise ErrorDatos(f"Ya existe {carpeta.name}/{modulo.ARCHIVO}")
+    for origen in modulo.PLANTILLA_NUEVO.rglob("*"):
+        destino = carpeta / origen.relative_to(modulo.PLANTILLA_NUEVO)
+        if origen.is_dir():
+            destino.mkdir(parents=True, exist_ok=True)
+        elif not destino.exists():
+            destino.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(origen, destino)
+    return carpeta / modulo.ARCHIVO
