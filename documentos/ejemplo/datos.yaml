@@ -1,0 +1,62 @@
+# ============================================================================
+#  DATOS DEL DOCUMENTO
+#  Todo valor se lee como texto: "06" se mantiene como 06 y 23:59 como 23:59.
+#  Cualquier clave de config/institucion.yaml (institucion, formato, estilo,
+#  etiquetas) puede sobreescribirse aquí solo para este documento.
+# ============================================================================
+
+documento:
+  tipo: INFORME DE LABORATORIO
+  # Nombre del PDF generado (sin extensión). Si se omite se arma solo.
+  archivo: Informe_Lab_06
+
+informacion:
+  asignatura: Nombre de la Asignatura
+  titulo: Título de la Práctica o Laboratorio
+  numero: 06
+  anio_lectivo: 2026-B
+  semestre: VIII (octavo)
+  fecha: 11/10/2026
+  hora: 23:59
+  integrantes:
+    - Apellido Apellido, Nombre (CUI 20200000)
+    - Apellido Apellido, Nombre (CUI 20200001)
+  nota:
+  docentes:
+    - M.Sc. Ing. Nombre del Docente
+
+# ----------------------------------------------------------------------------
+#  SECCIONES
+#  - Cada sección es una barra roja con su recuadro.
+#  - Si tiene "apartados", se numeran I, II, III... dentro del recuadro.
+#  - "contenido" puede ser un archivo .typ (dentro de esta carpeta) o un
+#    texto corto escrito aquí mismo.
+#  - "alto_minimo" (en cm) es opcional; por defecto se usan los de la plantilla.
+# ----------------------------------------------------------------------------
+secciones:
+  - titulo: SOLUCIÓN Y RESULTADOS
+    apartados:
+      - titulo: SOLUCIÓN DE EJERCICIOS/PROBLEMAS
+        contenido: contenido/ejercicios.typ
+
+      - titulo: SOLUCIÓN DEL CUESTIONARIO
+        preguntas:
+          - pregunta: ¿Primera pregunta del cuestionario?
+            respuesta: contenido/pregunta_1.typ
+          - pregunta: ¿Segunda pregunta del cuestionario?
+            respuesta: Las respuestas cortas pueden escribirse directamente aquí, con *negrita*, _cursiva_ y citas @typst_docs.
+          - pregunta: ¿Tercera pregunta del cuestionario?
+            respuesta: contenido/pregunta_3.typ
+
+      - titulo: CONCLUSIONES
+        contenido: contenido/conclusiones.typ
+
+  - titulo: RETROALIMENTACIÓN GENERAL
+    contenido:     # lo llena el docente: queda vacío
+
+referencias:
+  titulo: REFERENCIAS Y BIBLIOGRAFÍA
+  archivo: referencias.bib
+  estilo: ieee
+  # true = lista todas las entradas del .bib aunque no se citen
+  incluir_todas: false

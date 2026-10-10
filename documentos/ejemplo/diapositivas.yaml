@@ -1,0 +1,131 @@
+# ============================================================================
+#  DIAPOSITIVAS (PPTX)
+#  La portada y el cierre toman solos los datos de datos.yaml (título,
+#  asignatura, integrantes, docente, fecha).
+#
+#  Tipos: portada, agenda, seccion, contenido, dos_columnas, imagen, tabla,
+#         codigo, destacado, metricas, referencias, cierre
+#  Cualquier diapositiva admite `notas:` (notas del orador).
+#  En los textos: **negrita** y `código`.
+# ============================================================================
+
+# Tema de colores (ver plantillas/pptx/temas.yaml): unsa, azul, verde, vino,
+# grafito, noche
+tema: unsa
+
+# Cambiar solo algunos colores del tema (opcional):
+# colores:
+#   primario: "#0B5394"
+#   acento: "#F1C232"
+
+opciones:
+  numeracion: true
+  barra_progreso: true
+  mostrar_seccion: true          # nombre de la sección actual sobre el título
+  logo_en_diapositivas: true     # logo pequeño arriba a la derecha
+  # pie: Texto personalizado del pie de página
+
+# Nombre del archivo (opcional)
+archivo: Presentacion_Lab_06
+
+diapositivas:
+  - tipo: portada
+    # titulo / subtitulo / autores / docentes / fecha se pueden sobreescribir aquí
+
+  - tipo: agenda
+    titulo: Contenido
+    # sin `puntos`, se arma con los títulos de las diapositivas de sección
+
+  - tipo: seccion
+    titulo: Introducción
+    subtitulo: Contexto y objetivos de la práctica
+
+  - tipo: contenido
+    titulo: Objetivos de la práctica
+    texto: Al finalizar la práctica se espera que el estudiante sea capaz de
+    puntos:
+      - Comprender el concepto central del tema de estudio.
+      - texto: Aplicar los conceptos en un **caso práctico**
+        sub:
+          - Implementar la solución propuesta.
+          - Validar los resultados obtenidos.
+      - Analizar y comunicar los resultados con rigor académico.
+    destacado: "**Idea clave:** una franja destacada sirve para resumir el mensaje principal de la diapositiva."
+    notas: Estas son notas del orador; aparecen en la vista de moderador de PowerPoint.
+
+  - tipo: dos_columnas
+    titulo: Comparación de enfoques
+    izquierda:
+      subtitulo: Enfoque tradicional
+      puntos:
+        - Depende de la velocidad del equipo.
+        - Resultados distintos según el hardware.
+        - Más simple de implementar.
+    derecha:
+      subtitulo: Enfoque propuesto
+      puntos:
+        - Independiente de los FPS con `Time.deltaTime`.
+        - Comportamiento consistente.
+        - Escalable y mantenible.
+
+  - tipo: seccion
+    titulo: Desarrollo
+    subtitulo: Implementación y resultados
+
+  - tipo: imagen
+    titulo: Escena de prueba
+    imagen: imagenes/captura_ejemplo.png
+    pie: Captura de la aplicación en ejecución.
+    puntos:
+      - El objeto rota a velocidad constante.
+      - La rotación no depende de los FPS.
+      - Se muestran los valores en pantalla.
+
+  - tipo: codigo
+    titulo: Implementación del script
+    archivo: codigo/Rotador.cs
+    puntos:
+      - "`velocidad` se expresa en grados por segundo."
+      - "`Update()` se ejecuta una vez por frame."
+      - Multiplicar por `Time.deltaTime` normaliza el cambio.
+
+  - tipo: tabla
+    titulo: Resultados de las pruebas
+    pie: Resultados obtenidos en distintos escenarios.
+    encabezado: [Prueba, Descripción, FPS, Resultado]
+    anchos: [1, 4, 1, 2]
+    filas:
+      - [1, Caso base con datos válidos, 60, Correcto]
+      - [2, Caso límite con valores máximos, 144, Correcto]
+      - [3, Entrada inválida controlada, 30, Error esperado]
+      - [4, Prueba de estrés prolongada, 60, Correcto]
+
+  - tipo: metricas
+    titulo: Indicadores principales
+    items:
+      - { valor: "100%", etiqueta: Pruebas superadas, detalle: 4 de 4 casos ejecutados }
+      - { valor: "60", etiqueta: FPS promedio, detalle: Medido en el equipo de laboratorio }
+      - { valor: "0.016 s", etiqueta: Δt promedio, detalle: Tiempo entre frames }
+
+  - tipo: seccion
+    titulo: Conclusiones
+
+  - tipo: contenido
+    titulo: Conclusiones
+    puntos:
+      - Primera conclusión del trabajo realizado.
+      - Segunda conclusión, relacionada con los resultados.
+      - Tercera conclusión sobre lo aprendido en la práctica.
+
+  - tipo: destacado
+    texto: Aquí va una cita textual o la idea central que se quiere dejar en la audiencia.
+    autor: Autor de la cita (Año)
+
+  - tipo: referencias
+    titulo: Referencias
+    # usa el .bib de datos.yaml; con `claves:` se eligen y ordenan entradas
+    claves: [typst_docs, ieee_guide, python_docs, knuth1984]
+
+  - tipo: cierre
+    titulo: ¡Gracias!
+    subtitulo: ¿Preguntas?
