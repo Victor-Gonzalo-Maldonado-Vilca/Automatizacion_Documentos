@@ -1,0 +1,26 @@
+# ============================================================================
+#  CONFIGURACIÓN INSTITUCIONAL (compartida por todos los documentos)
+#  Cualquier valor puede sobreescribirse en el `datos.yaml` de cada documento
+#  usando las mismas claves.
+# ============================================================================
+
+institucion:
+  universidad: UNIVERSIDAD NACIONAL DE SAN AGUSTIN
+  facultad: FACULTAD DE INGENIERÍA DE PRODUCCIÓN Y SERVICIOS
+  escuela: ESCUELA PROFESIONAL DE INGENIERÍA DE SISTEMA
+  # Rutas relativas a la raíz del proyecto
+  logo_izquierdo: assets/logos/ingenieria_sistemas.png
+  logo_derecho: assets/logos/abet.png
+
+formato:
+  nombre: Guía de Práctica de Laboratorio / Talleres / Centros de Simulación
+  aprobacion: 2022/03/01
+  codigo: GUIA-PRLE-001
+
+# Estilo del informe (valores extraídos de plantilla.docx)
+estilo:
+  color_barra: "#C8310E"      # barras rojas de sección
+  color_texto_barra: "#FFFFFF"
+  color_datos: "#2F5496"      # azul cursiva de los campos llenados
+  fuente: Calibri
+  fuente_codigo: Consolas
