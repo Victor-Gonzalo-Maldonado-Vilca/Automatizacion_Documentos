@@ -1,0 +1,40 @@
+# Datos del documento. Ver documentos/ejemplo/datos.yaml para un ejemplo completo.
+
+documento:
+  tipo: INFORME DE LABORATORIO
+  archivo:          # nombre del PDF (opcional)
+
+informacion:
+  asignatura:
+  titulo:
+  numero:
+  anio_lectivo:
+  semestre:
+  fecha:
+  hora:
+  integrantes:
+    -
+  nota:
+  docentes:
+    -
+
+secciones:
+  - titulo: SOLUCIÓN Y RESULTADOS
+    apartados:
+      - titulo: SOLUCIÓN DE EJERCICIOS/PROBLEMAS
+        contenido: contenido/ejercicios.typ
+      - titulo: SOLUCIÓN DEL CUESTIONARIO
+        preguntas:
+          - pregunta:
+            respuesta:
+      - titulo: CONCLUSIONES
+        contenido: contenido/conclusiones.typ
+
+  - titulo: RETROALIMENTACIÓN GENERAL
+    contenido:
+
+referencias:
+  titulo: REFERENCIAS Y BIBLIOGRAFÍA
+  archivo: referencias.bib
+  estilo: ieee
+  incluir_todas: false
