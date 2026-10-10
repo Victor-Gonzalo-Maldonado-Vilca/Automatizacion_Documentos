@@ -219,17 +219,20 @@ Temas incluidos: `unsa`, `azul`, `verde`, `vino`, `grafito`, `noche`.
 
 ## Autoría
 
-Este proyecto fue **diseñado y programado por Claude** (modelo Claude Opus 5.5 de
-Anthropic), trabajando en Claude Code: el código Python, la réplica en Typst
-del formato del informe, el generador de diapositivas, los temas de color, el
-documento de ejemplo y esta documentación.
+Proyecto desarrollado por **Victor Gonzalo Maldonado Vilca** en colaboración
+con **Claude** (modelo Claude Opus 5.5 de Anthropic), usado como asistente de
+desarrollo en Claude Code.
 
-| Rol | Quién |
+| Autor | Aporte |
 |---|---|
-| Diseño, desarrollo y documentación | **Claude** (Anthropic) |
-| Idea, requisitos y dirección del proyecto | **Victor Gonzalo Maldonado Vilca** |
-| Formato original del informe (GUIA-PRLE-001) | Escuela Profesional de Ingeniería de Sistemas – UNSA |
+| **Victor Gonzalo Maldonado Vilca** | Idea y objetivo del proyecto, definición de requisitos y formatos de documento, selección de las plantillas institucionales, decisiones de diseño, dirección del desarrollo, pruebas y revisión de resultados |
+| **Claude** (Anthropic) | Implementación del código y de las plantillas (Typst, Word y PowerPoint), propuestas de arquitectura y redacción de la documentación, a partir de los requisitos y la revisión del autor |
 
-Los commits hechos por Claude tienen a Claude como autor. Los logos de la
-escuela y de ABET pertenecen a sus respectivos titulares y se incluyen solo
-para reproducir el formato institucional.
+El formato original del informe de laboratorio (GUIA-PRLE-001) pertenece a la
+Escuela Profesional de Ingeniería de Sistemas – UNSA. Los logos de la escuela,
+de la universidad y de ABET pertenecen a sus respectivos titulares y se incluyen
+solo para reproducir los formatos institucionales.
+
+En el historial de Git, los primeros commits figuran con Claude como autor; los
+siguientes tienen como autor a Victor Gonzalo Maldonado Vilca y a Claude como
+coautor (`Co-Authored-By`).
