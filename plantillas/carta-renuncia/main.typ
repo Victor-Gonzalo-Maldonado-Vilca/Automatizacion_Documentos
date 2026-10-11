@@ -1,4 +1,9 @@
-#let d = yaml("/plantillas/carta-renuncia/nuevo/carta.yaml")
+#let d = if "datos" in sys.inputs {
+  json(sys.inputs.at("datos"))                            
+} else {
+  yaml("/documentos/ejemplo-carta-renuncia/carta.yaml")   
+}
+
 #let dest = d.at("destinatario")
 #let rem = d.at("remitente")
 #let ren = d.at("renuncia")
@@ -28,7 +33,7 @@ Presente.-
 
 Yo, *#req(rem.at("nombre"), "Nombre_Remitente")*, identificado con DNI N.° #req(rem.at("dni"), "DNI"), *#req(rem.at("cargo"), "Cargo_Remitente")* en el área de *#req(rem.at("area"), "Area_Remitente")*, me dirijo a usted con la finalidad de presentar mi renuncia irrevocable al puesto que ocupo en la organización.
 #if not vacio(ren.at("motivo")) [#ren.at("motivo").]
-#if ren.at("exoneracion_preaviso") == true [
+#if str(ren.at("exoneracion_preaviso", default: "false")) == "true" [
     En ese sentido, solicito la exoneración del plazo de preaviso de 30 días fijado por ley,
 ] else [
     En ese sentido, cumpliré con el plazo de preaviso de 30 días establecido por ley,

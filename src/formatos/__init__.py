@@ -21,9 +21,9 @@ from pathlib import Path
 
 from datos import ErrorDatos, leer_yaml
 
-from . import informe_academico, informe_laboratorio, presentacion
+from . import informe_academico, informe_laboratorio, presentacion, carta_renuncia
 
-FORMATOS = {m.NOMBRE: m for m in (informe_laboratorio, informe_academico, presentacion)}
+FORMATOS = {m.NOMBRE: m for m in (informe_laboratorio, informe_academico, presentacion, carta_renuncia)}
 
 
 def formato_de(ruta_yaml: Path):

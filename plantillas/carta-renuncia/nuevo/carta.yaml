@@ -1,25 +1,27 @@
 formato: carta-renuncia
 salidas: [pdf]
 
-lugar: 
-fecha: 
+lugar: Arequipa, Perú
+fecha: fecha de la carta (por ejemplo, 11 de octubre de 2026)
 
 destinatario:
-  tratamiento: 
-  nombre: 
-  cargo: 
-  organizacion: 
+  tratamiento: Sr.
+  nombre: Nombre del Jefe
+  cargo: Cargo del Jefe
+  organizacion: Organización del Jefe
 
 remitente:
-  nombre: 
-  cargo: 
-  dni: 
-  area: 
+  nombre: Nombre del Empleado
+  cargo: Cargo del Empleado
+  dni: Dni del Empleado
+  area: Área del Empleado
 
 renuncia:
-  motivo: 
-  fecha_efectiva: 
-  exoneracion_preaviso: 
+  motivo: Motivo de la renuncia (por ejemplo, motivos personales, búsqueda de nuevas oportunidades, etc.)
+  fecha_efectiva: fecha efectiva de la renuncia (por ejemplo, 25 de octubre de 2026)
+  exoneracion_preaviso: exoneración del preaviso (true o false)
 
 agradecimientos:
-- 
+- agradecimiento 1 (por ejemplo, "Agradezco la oportunidad de haber trabajado en esta empresa y por el apoyo brindado durante mi tiempo aquí.")
+- agradecimiento 2 (por ejemplo, "Valoro la experiencia adquirida y las relaciones profesionales que he desarrollado.")
+- agradecimiento 3 (opcional)
