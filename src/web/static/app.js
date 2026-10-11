@@ -236,6 +236,9 @@ async function guardar({ silencioso = false } = {}) {
     E.datos = clonar(r.datos);
     marcarSucio(false);
     $("#doc-titulo").textContent = tituloDe(E.datos);
+    // El formulario debe apuntar a los datos nuevos; si no, los cambios
+    // posteriores se escribirían en la copia anterior y no se guardarían.
+    if (E.pestana === "datos") dibujarDatos();
     if (!silencioso) aviso("Datos guardados", "ok");
     if (E.pestana === "yaml") dibujarPestana();
     cargarDocumentos();

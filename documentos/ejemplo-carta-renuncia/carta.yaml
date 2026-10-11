@@ -19,7 +19,7 @@ remitente:
 renuncia:
   motivo: Motivo de la renuncia (por ejemplo, motivos personales, búsqueda de nuevas oportunidades, etc.)
   fecha_efectiva: 25 de octubre de 2026
-  exoneracion_preaviso: true
+  exoneracion_preaviso: false
 
 agradecimientos:
   - Agradezco la oportunidad de haber trabajado en esta empresa y por el apoyo brindado durante mi tiempo aquí.
